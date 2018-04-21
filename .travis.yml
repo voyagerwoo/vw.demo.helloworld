@@ -1,0 +1,8 @@
+language: java
+jdk: oraclejdk8
+
+before_script:
+  - ./docker_build.sh
+
+script:
+ - ./docker_push_dockerhub.sh
