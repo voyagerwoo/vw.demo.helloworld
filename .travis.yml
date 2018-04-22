@@ -12,10 +12,10 @@ services:
   - docker
 
 script:
-  - echo "#### BUILD ####"
+  # BUILD
   - ./gradlew build
 
-  - echo "#### GET NAME ####"
+  # GET NAME
   - PRJ_GROUP=$(gradle properties -q | grep "group:" | awk '{print $2}')
   - PRJ_NAME=$(gradle properties -q | grep "name:" | awk '{print $2}')
   - PRJ_VERSION=$(gradle properties -q | grep "version:" | awk '{print $2}')
@@ -26,10 +26,10 @@ script:
 
   - PRJ_JAR=${PRJ_NAME}-${PRJ_VERSION}.jar
 
-  - echo "#### DOCKER BUILD ####"
+  # DOCKER BUILD
   - docker build -t ${PRJ_GROUP}.${PRJ_NAME}:latest --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
 
-  - echo "#### PUSH TO DOCKER HUB ####"
+  # PUSH TO DOCKER HUB
   - docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
   - docker tag vw.demo.helloworld:latest voyagerwoo/vw.demo.helloworld:latest
   - docker tag vw.demo.helloworld:latest voyagerwoo/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
@@ -37,7 +37,7 @@ script:
   - docker push voyagerwoo/vw.demo.helloworld:latest
   - docker push voyagerwoo/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
 
-  - echo "#### PUSH TO AWS REPOSITORY (required aws credentials) ####"
+  # PUSH TO AWS REPOSITORY (required aws credentials)
   - pip install --user awscli
   - DOCKER_LOGIN=`aws ecr get-login --no-include-email --region ap-northeast-2`
   - ${DOCKER_LOGIN}
