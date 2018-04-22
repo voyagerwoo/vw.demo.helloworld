@@ -41,7 +41,7 @@ script:
   - pip install --user awscli
   - DOCKER_LOGIN=`aws ecr get-login --no-include-email --region ap-northeast-2`
   - ${DOCKER_LOGIN}
-  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:latest
-  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
-  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:latest
-  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
+  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:latest
+  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:${TRAVIS_JOB_NUMBER}
+  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:latest
+  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:${TRAVIS_JOB_NUMBER}
