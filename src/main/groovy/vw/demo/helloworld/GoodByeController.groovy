@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("goodbye")
+@RequestMapping("/goodbye")
 class GoodByeController {
 
-    @GetMapping
-    String goodbye(String name = "world") {
-        return "Good Bye, $name"
+    @GetMapping("")
+    String goodbye(String name) {
+        return "Good Bye, ${name? name: 'world'}!"
     }
 }
