@@ -38,7 +38,8 @@ script:
   - docker push voyagerwoo/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
 
   - echo "#### PUSH TO AWS REPOSITORY (required aws credentials) ####"
-  - `aws ecr get-login --no-include-email --region ap-northeast-2`
+  - DOCKER_LOGIN=`aws ecr get-login --no-include-email --region ap-northeast-2`
+  - ${DOCKER_LOGIN}
   - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:latest
   - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:latest
 
