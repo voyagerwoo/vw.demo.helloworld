@@ -12,10 +12,10 @@ services:
   - docker
 
 script:
-  # build
+# build
   - ./gradlew build
 
-  # get name
+# get name
   - PRJ_GROUP=$(gradle properties -q | grep "group:" | awk '{print $2}')
   - PRJ_NAME=$(gradle properties -q | grep "name:" | awk '{print $2}')
   - PRJ_VERSION=$(gradle properties -q | grep "version:" | awk '{print $2}')
@@ -26,10 +26,10 @@ script:
 
   - PRJ_JAR=${PRJ_NAME}-${PRJ_VERSION}.jar
 
-  # docker build
+# docker build
   - docker build -t ${PRJ_GROUP}.${PRJ_NAME}:latest --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
 
-  # push to docker hub
+# push to docker hub
   - docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
   - docker tag vw.demo.helloworld:latest voyagerwoo/vw.demo.helloworld:latest
   - docker tag vw.demo.helloworld:latest voyagerwoo/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
@@ -37,7 +37,7 @@ script:
   - docker push voyagerwoo/vw.demo.helloworld:latest
   - docker push voyagerwoo/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
 
-  # push to aws repository (required aws credentials)
+# push to aws repository (required aws credentials)
   - `aws ecr get-login --no-include-email --region ap-northeast-2`
   - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:latest
   - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/vw.demo.helloworld:latest
