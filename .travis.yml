@@ -6,8 +6,8 @@ sudo: required
 services:
   - docker
 
-before_script:
+script:
   - ./docker_build.sh
 
-script:
+after_success:
  - ./docker_push_dockerhub.sh
