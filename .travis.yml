@@ -12,7 +12,14 @@ services:
   - docker
 
 script:
-  - ./docker_build.sh
+  - ./gradlew build
+  - PRJ_GROUP=$(gradle properties -q | grep "group:" | awk '{print $2}')
+  - PRJ_NAME=$(gradle properties -q | grep "name:" | awk '{print $2}')
+  - PRJ_VERSION=$(gradle properties -q | grep "version:" | awk '{print $2}')
+  - PRJ_JAR=${PRJ_NAME}-${PRJ_VERSION}.jar
+  - docker build -t ${PRJ_GROUP}.${PRJ_NAME}:latest --build-arg JAR_FILE=build/libs/${PRJ_JAR} ./
 
 after_success:
- - ./docker_push_dockerhub.sh
+  - docker login -e ${DOCKER_EMAIL} -u ${DOCKER_USER} -p ${DOCKER_PASS}
+  - docker tag vw.demo.helloworld:latest voyagerwoo/vw.demo.helloworld:latest
+  - docker push voyagerwoo/vw.demo.helloworld:latest
