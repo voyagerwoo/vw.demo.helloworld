@@ -1,0 +1,14 @@
+version: '2'
+services:
+  hello-ecs-app:
+    image: 957582603404.dkr.ecr.ap-northeast-2.amazonaws.com/hello-ecs:latest
+    cpu_shares: 100
+    mem_limit: 524288000
+    ports:
+      - "0:9460"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: hello-ecs-cli
+        awslogs-region: ap-northeast-2
+        awslogs-stream-prefix: wordpress
