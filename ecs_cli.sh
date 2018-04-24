@@ -6,6 +6,7 @@ ecs-cli configure --cluster hello-ecs-cli --region ap-northeast-2 \
 ecs-cli configure profile --access-key ${AWS_ACCESS_KEY_ID} \
   --secret-key ${AWS_SECRET_ACCESS_KEY} --profile-name  hello-ecs-cli
 
+
 ecs-cli up --keypair voyager.woo \
   --security-group sg-5f7ab935 --cluster hello-ecs-cli \
   --vpc vpc-b40c30dd --subnets subnet-5331741e,subnet-3f5a5656 \
@@ -14,26 +15,45 @@ ecs-cli up --keypair voyager.woo \
 
 
 # test compose container up
-ecs-cli compose --file hello-compose.yml up --create-log-groups --cluster hello-ecs-cli
+ecs-cli compose --file hello-compose.yml \
+  --project-name hello-ecs-cli \
+  up --create-log-groups --cluster hello-ecs-cli
+
 # test compose scale up
-ecs-cli compose --file hello-compose.yml scale 2 --cluster hello-ecs-cli
+ecs-cli compose --file hello-compose.yml \
+  --project-name hello-ecs-cli \
+  scale 2 --cluster hello-ecs-cli
+
 # shutdown compose container
-ecs-cli compose --file hello-compose.yml down --cluster hello-ecs-cli
+ecs-cli compose --file hello-compose.yml \
+  --project-name hello-ecs-cli \
+  down --cluster hello-ecs-cli
 
 # 서비스 생성
-ecs-cli compose --file hello-compose.yml service create --cluster hello-ecs-cli \
+ecs-cli compose --file hello-compose.yml \
+  --project-name hello-ecs-cli \
+  service create --cluster hello-ecs-cli \
   --deployment-max-percent 200 \
   --deployment-min-healthy-percent 50 \
-  --target-group-arn "arn:aws:elasticloadbalancing:ap-northeast-2:957582603404:targetgroup/hello-ecs-cli-service/13e879e4c11b7f11" \
+  --target-group-arn "arn:aws:elasticloadbalancing:ap-northeast-2:957582603404:targetgroup/hello-ecs-elb-target/efcbcc0b8d11748c" \
   --health-check-grace-period 30 \
   --container-name hello-ecs-app \
   --container-port 9460 \
-  --create-log-groups 
+  --create-log-groups
 
 # 서비스 초기화
-ecs-cli compose --file hello-compose.yml service up --cluster hello-ecs-cli
+ecs-cli compose --file hello-compose.yml \
+  --project-name hello-ecs-cli \
+  service up \
+  --cluster hello-ecs-cli
 
-ecs-cli compose --file hello-compose.yml service scale 2 --cluster hello-ecs-cli 
+ecs-cli compose --file hello-compose.yml \
+  --project-name hello-ecs-cli \
+  service scale 2 \
+  --cluster hello-ecs-cli
 
-ecs-cli compose --file hello-compose.yml --project-name hello-ecs-cli service up \
+# 서비스 업데이트
+ecs-cli compose --file hello-compose.yml \
+  --project-name hello-ecs-cli \
+  service up \
   --cluster hello-ecs-cli --force-deployment
