@@ -40,19 +40,19 @@ script:
   - docker push voyagerwoo/vw.demo.helloworld:latest
   - docker push voyagerwoo/vw.demo.helloworld:${TRAVIS_JOB_NUMBER}
 
-  # PUSH TO AWS REPOSITORY (required aws credentials)
-  - pip install --user awscli
-  - DOCKER_LOGIN=`aws ecr get-login --no-include-email --region ap-northeast-2`
-  - ${DOCKER_LOGIN}
-  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:latest
-  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:${TRAVIS_JOB_NUMBER}
-  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:latest
-  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:${TRAVIS_JOB_NUMBER}
-
-  # ECS CLI SERVICE UPDATE
-  - sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
-  - sudo chmod +x /usr/local/bin/ecs-cli
-  - ecs-cli configure profile --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} --profile-name  hello-ecs-cli
-
-  - ecs-cli compose --file hello-compose.yml --project-name hello-ecs-cli service up --cluster hello-ecs-cli
+#  # PUSH TO AWS REPOSITORY (required aws credentials)
+#  - pip install --user awscli
+#  - DOCKER_LOGIN=`aws ecr get-login --no-include-email --region ap-northeast-2`
+#  - ${DOCKER_LOGIN}
+#  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:latest
+#  - docker tag vw.demo.helloworld:latest ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:${TRAVIS_JOB_NUMBER}
+#  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:latest
+#  - docker push ${ECS_DOCKER_REPOSITORY_DOMAIN}/hello-ecs:${TRAVIS_JOB_NUMBER}
+#
+#  # ECS CLI SERVICE UPDATE
+#  - sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+#  - sudo chmod +x /usr/local/bin/ecs-cli
+#  - ecs-cli configure profile --access-key ${AWS_ACCESS_KEY_ID} --secret-key ${AWS_SECRET_ACCESS_KEY} --profile-name  hello-ecs-cli
+#
+#  - ecs-cli compose --file hello-compose.yml --project-name hello-ecs-cli service up --cluster hello-ecs-cli
 
