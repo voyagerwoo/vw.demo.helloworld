@@ -15,9 +15,4 @@ class HelloworldController {
     String howAreYou(String name) {
         return "How Are You, ${name? name: 'world'}?"
     }
-
-    @GetMapping("/haha")
-    String haha(String name) {
-        return "hahaha, ${name? name: 'world'}!"
-    }
 }
