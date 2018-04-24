@@ -54,5 +54,6 @@ script:
   - sudo chmod +x /usr/local/bin/ecs-cli
   - ecs-cli configure profile --access-key ${AWS_ACCESS_KEY_ID} \
     --secret-key ${AWS_SECRET_ACCESS_KEY} --profile-name  hello-ecs-cli
-  - ecs-cli compose --file hello-compose.yml service up --cluster hello-ecs-cli --force-deployment
+  - ecs-cli compose --file hello-compose.yml service up --cluster hello-ecs-cli \
+    --force-deployment --project-name hello-ecs-cli
 
