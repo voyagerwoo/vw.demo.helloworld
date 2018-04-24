@@ -17,4 +17,9 @@ class HelloworldController {
     String helloKr(String name) {
         return "안녕하세요, ${name? name: 'world'}?"
     }
+
+    @GetMapping("/jp")
+    String helloJp(String name) {
+        return "곤니찌와, ${name? name: 'world'}?"
+    }
 }
