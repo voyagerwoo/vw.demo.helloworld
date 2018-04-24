@@ -12,4 +12,9 @@ class GoodByeController {
     String goodbye(String name) {
         return "Good Bye, ${name? name: 'world'}!"
     }
+
+    @GetMapping("/kr")
+    String goodbyeKr(String name) {
+        return "안녕히 가세요, ${name? name: 'world'}!"
+    }
 }
